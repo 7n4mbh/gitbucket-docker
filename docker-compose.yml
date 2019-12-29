@@ -1,0 +1,23 @@
+version: "3"
+services:
+  db:
+    container_name: db
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - ./db/data:/var/lib/mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=gitbucket
+      - MYSQL_USER=testuser
+      - MYSQL_PASSWORD=testpassword
+    ports:
+      - 3306:3306
+
+  gitbucket:
+    container_name: gitbucket
+    image: gitbucket/gitbucket:4
+    ports:
+      - 8080:8080
+    volumes:
+      - ./gitbucket-data:/gitbucket
