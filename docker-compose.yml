@@ -13,6 +13,7 @@ services:
       - MYSQL_PASSWORD=testpassword
     ports:
       - 3306:3306
+    restart: always
 
   gitbucket:
     container_name: gitbucket
@@ -21,3 +22,6 @@ services:
       - 8080:8080
     volumes:
       - ./gitbucket-data:/gitbucket
+    depends_on:
+      - db
+    restart: always
