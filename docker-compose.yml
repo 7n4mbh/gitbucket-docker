@@ -13,7 +13,7 @@ services:
       - ./gitbucket-data:/gitbucket
     depends_on:
       - db
-    restart: always
+    restart: unless-stopped
 
   db:
     container_name: db
@@ -28,7 +28,7 @@ services:
       - MYSQL_PASSWORD=testpassword
     ports:
       - 3306:3306
-    restart: always
+    restart: unless-stopped
 
   backup:
     container_name: backup
@@ -40,4 +40,4 @@ services:
     volumes:
       - ./gitbucket-data:/mnt/from
       - /mnt/backup_gitbucket:/mnt/to
-    restart: always
+    restart: unless-stopped
