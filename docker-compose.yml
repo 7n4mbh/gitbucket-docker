@@ -1,5 +1,16 @@
 version: "3"
 services:
+  gitbucket:
+    container_name: gitbucket
+    image: gitbucket/gitbucket:4
+    ports:
+      - 8080:8080
+    volumes:
+      - ./gitbucket-data:/gitbucket
+    depends_on:
+      - db
+    restart: always
+
   db:
     container_name: db
     image: mysql:5.7
@@ -15,13 +26,14 @@ services:
       - 3306:3306
     restart: always
 
-  gitbucket:
-    container_name: gitbucket
-    image: gitbucket/gitbucket:4
-    ports:
-      - 8080:8080
+  backup:
+    container_name: backup
+    build:
+      context: .
+      args:
+        - http_proxy=${http_proxy}
+        - https_proxy=${https_proxy}
     volumes:
-      - ./gitbucket-data:/gitbucket
-    depends_on:
-      - db
+      - ./gitbucket-data:/mnt/from
+      - /mnt/backup_gitbucket:/mnt/to
     restart: always
