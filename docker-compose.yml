@@ -2,7 +2,11 @@ version: "3"
 services:
   gitbucket:
     container_name: gitbucket
-    image: gitbucket/gitbucket:4
+    build:
+      context: ./gitbucket
+      args:
+        - http_proxy=${http_proxy}
+        - https_proxy=${https_proxy}
     ports:
       - 8080:8080
     volumes:
@@ -29,7 +33,7 @@ services:
   backup:
     container_name: backup
     build:
-      context: .
+      context: ./backup
       args:
         - http_proxy=${http_proxy}
         - https_proxy=${https_proxy}
