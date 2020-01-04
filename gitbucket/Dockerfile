@@ -6,7 +6,10 @@ COPY gitbucket.sh /opt/gitbucket.sh
 
 RUN ln -s /gitbucket /root/.gitbucket
 
-RUN apk add --no-cache mysql-client
+RUN apk --update add tzdata mysql-client && \
+    cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
+    apk del tzdata && \
+    rm -rf /var/cache/apk/*
 
 VOLUME /gitbucket
 

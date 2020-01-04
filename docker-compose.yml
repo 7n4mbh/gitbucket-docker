@@ -7,6 +7,8 @@ services:
       args:
         - http_proxy=${http_proxy}
         - https_proxy=${https_proxy}
+    environment:
+      - TZ=Asia/Tokyo
     ports:
       - 8080:8080
     volumes:
@@ -26,6 +28,7 @@ services:
       - MYSQL_DATABASE=gitbucket
       - MYSQL_USER=testuser
       - MYSQL_PASSWORD=testpassword
+      - TZ=Asia/Tokyo
     ports:
       - 3306:3306
     restart: unless-stopped
@@ -37,6 +40,8 @@ services:
       args:
         - http_proxy=${http_proxy}
         - https_proxy=${https_proxy}
+    environment:
+      - TZ=Asia/Tokyo
     volumes:
       - ./gitbucket-data:/mnt/from
       - /mnt/backup_gitbucket:/mnt/to
