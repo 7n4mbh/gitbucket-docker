@@ -16,11 +16,16 @@ services:
     depends_on:
       - db
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   db:
     container_name: db
     image: mysql:5.7
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --log-timestamps=SYSTEM
     volumes:
       - ./db/data:/var/lib/mysql
     environment:
@@ -32,6 +37,11 @@ services:
     ports:
       - 3306:3306
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   backup:
     container_name: backup
@@ -42,7 +52,14 @@ services:
         - https_proxy=${https_proxy}
     environment:
       - TZ=Asia/Tokyo
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
     volumes:
       - ./gitbucket-data:/mnt/from
       - /mnt/backup_gitbucket:/mnt/to
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
